@@ -54,7 +54,11 @@ public class JettyHttpServerRestChannel extends HttpChannel {
     @Override
     public void sendResponse(RestResponse response) {
         resp.setContentType(response.contentType());
-        resp.addHeader("Access-Control-Allow-Origin", "*");
+        resp.addHeader("Access-Control-Allow-Origin", this.restRequest.header("Origin"));
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
+        resp.addHeader("Access-Control-Max-Age", "1728000");
+        resp.addHeader("Access-Control-Allow-Methods", "OPTIONS, HEAD, GET, POST, PUT, DELETE");
+        resp.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Content-Length");
         if (response.status() != null) {
             resp.setStatus(response.status().getStatus());
         } else {
